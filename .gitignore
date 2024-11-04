@@ -8,3 +8,7 @@ wheels/
 
 # Virtual environments
 .venv
+target
+
+# Pipeline config
+config.json

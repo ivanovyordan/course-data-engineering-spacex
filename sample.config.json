@@ -1,0 +1,8 @@
+{
+    "account": "your_account",
+    "user": "your_username",
+    "password": "your_password",
+    "database": "your_database",
+    "warehouse": "your_warehouse",
+    "schema": "public"
+}
