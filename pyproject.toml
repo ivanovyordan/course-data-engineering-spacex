@@ -7,6 +7,7 @@ requires-python = ">=3.13"
 dependencies = [
     "pandas>=2.2.3",
     "requests>=2.32.3",
+    "singer-python>=6.1.0",
 ]
 
 [dependency-groups]
