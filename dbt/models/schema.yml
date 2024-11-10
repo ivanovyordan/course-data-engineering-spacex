@@ -6,9 +6,17 @@ sources:
     schema: public
     tables:
       - name: launches
+      - name: rockets
 
 models:
   - name: launches
+    columns:
+      - name: id
+        tests:
+          - not_null
+          - unique
+
+  - name: rocekts
     columns:
       - name: id
         tests:
