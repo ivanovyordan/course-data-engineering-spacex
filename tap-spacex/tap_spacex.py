@@ -8,6 +8,8 @@ schema = {
     "properties": {
         "id": {"type": "string"},
         "name": {"type": "string"},
+        "rocket": {"type": "string"},
+        "success": {"type": ["number", "null"]},
         "date_utc": {"type": "string", "format": "date-time"},
         # Add other fields as needed
     }
