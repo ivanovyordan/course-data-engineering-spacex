@@ -55,7 +55,7 @@ uv sync
 To run the data integration pipeline run:
 
 ```sh
-cd target-snowflakr
+cd target-snowflake
 cp sample.config.json config.json
 ```
 
@@ -63,7 +63,5 @@ Edit the config.json file to include your snowflake credentials.
 Then run:
 
 ```sh
-cd tap-spacex && uv run -- python tap_spacex.py | \
-cd ../target-snowflake && uv run target-snowflake --config sample.config.json \
-&& cd ..
+bash pipeline.sh
 ```

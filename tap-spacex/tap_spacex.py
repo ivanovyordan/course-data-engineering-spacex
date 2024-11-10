@@ -20,8 +20,9 @@ def main():
 
     # Replace NaN values with None
     df = df.replace({np.nan: None})
-
     records = df.to_dict(orient="records")
+
+    singer.write_schema("launches", schema, "id")
     singer.write_records("launches", records)
 
 

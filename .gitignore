@@ -15,3 +15,4 @@ config.json
 
 # dbt artifacts
 dbt/target
+dbt/logs
