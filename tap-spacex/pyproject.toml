@@ -1,16 +1,10 @@
 [project]
-name = "spacex-data-engineering"
+name = "tap-spacex"
 version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.13"
+requires-python = "==3.12.*"
 dependencies = [
     "pandas>=2.2.3",
-    "requests>=2.32.3",
     "singer-python>=6.1.0",
-]
-
-[dependency-groups]
-dev = [
-    "ruff>=0.7.2",
 ]

@@ -9,32 +9,61 @@ https://datagibberish.com/p/free-data-engineering-course
 ## Run
 
 This is an opinionated setup. You might not need to do it the way I do.
+Each folder has a separate virtual requirements and virtoal environment.
+This helps us keep the dependencies separate.
 
-### Step #1: Install UV
-
-Install the uv package manager.
+The only requirement to run this project is uv.
+To install uv, run:
 
 ```sh
 brew install uv
 ```
 
-### Step #2: Install Dependencies
+## Intro Scripts
 
-Install most dependencies. Target Snowflake is a bit different. It's much easier
-to keep it in a separate virtual environment.
+To run the intro scripts, run:
 
 ```sh
+cd intro
+uv sync
+uv run -- <script.py>
+```
+
+## Tap
+
+Our tap lives in tap-spacex.
+To set that up run:
+
+```sh
+cd tap-spacex
+uv sync
+uv run -- python tap_sapcex.py
+```
+
+## Target
+
+Our tap lives in tap-spacex.
+To set that up run:
+
+```sh
+cd tap-spacex
 uv sync
 ```
 
-### Step #3: Setup Target Snowflake
+## Running the pipeline
 
-````sh
-uv tool install meltanolabs-target-snowflake
-```
-
-### Step #4: Run
+To run the data integration pipeline run:
 
 ```sh
-python tap-spacex/tap_spacex.py | target-snowflake
-````
+cd target-snowflakr
+cp sample.config.json config.json
+```
+
+Edit the config.json file to include your snowflake credentials.
+Then run:
+
+```sh
+cd tap-spacex && uv run -- python tap_spacex.py | \
+cd ../target-snowflake && uv run target-snowflake --config sample.config.json \
+&& cd ..
+```

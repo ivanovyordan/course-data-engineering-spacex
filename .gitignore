@@ -12,3 +12,6 @@ target
 
 # Pipeline config
 config.json
+
+# dbt artifacts
+dbt/target
