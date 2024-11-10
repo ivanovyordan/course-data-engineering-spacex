@@ -55,3 +55,12 @@ with recent_launches as (
     where launch_date > '2020-01-01'
 )
 select * from recent_launches;
+
+---
+
+create or replace view dbt_spacex.succesful_launches as
+select *
+from dbt_spacex.launches
+where success = true;
+
+select * from dbt_spacex.succesful_launches;
