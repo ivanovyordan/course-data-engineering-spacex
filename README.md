@@ -9,59 +9,39 @@ https://datagibberish.com/p/free-data-engineering-course
 ## Run
 
 This is an opinionated setup. You might not need to do it the way I do.
-Each folder has a separate virtual requirements and virtoal environment.
-This helps us keep the dependencies separate.
+We use a single virtual environment to keep track of all the dependencies.
 
 The only requirement to run this project is uv.
 To install uv, run:
 
 ```sh
 brew install uv
+uv sync
 ```
 
-## Intro Scripts
+## Running Scripts
 
-To run the intro scripts, run:
-
-```sh
-cd intro
-uv sync
-uv run -- <script.py>
-```
-
-## Tap
-
-Our tap lives in tap-spacex.
-To set that up run:
+To run Python scripts, run:
 
 ```sh
-cd tap-spacex
-uv sync
-uv run -- python tap_sapcex.py
-```
-
-## Target
-
-Our tap lives in tap-spacex.
-To set that up run:
-
-```sh
-cd tap-spacex
-uv sync
+uv run -- src/<script>.py
 ```
 
 ## Running the pipeline
 
-To run the data integration pipeline run:
-
-```sh
-cd target-snowflake
-cp sample.config.json config.json
-```
-
 Edit the config.json file to include your snowflake credentials.
 Then run:
 
+
 ```sh
-bash pipeline.sh
+uv run -- python src/tap_spacex.py | uv run -- target-snowflake
+```
+
+## Running dbt
+
+Run:
+
+```sh
+cd dbt
+uv run -- dbt run
 ```

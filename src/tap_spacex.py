@@ -9,6 +9,7 @@ def fetch_launches():
     url = "https://api.spacexdata.com/v4/launches"
     df = pd.read_json(url)
 
+    records= df.to_dict(orient="records")
     schema = {
         "properties": {
             "id": {"type": "string"},
@@ -18,10 +19,6 @@ def fetch_launches():
             "date_utc": {"type": "string", "format": "date-time"},
         }
     }
-
-    # Replace NaN values with None
-    df = df.replace({np.nan: None})
-    records = df.to_dict(orient="records")
 
     singer.write_schema("launches", schema, "id")
     singer.write_records("launches", records)

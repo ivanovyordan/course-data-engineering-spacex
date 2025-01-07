@@ -1,0 +1,19 @@
+[project]
+name = "tap-spacex"
+version = "0.2.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = [
+    "pandas>=2.2.3",
+    "requests>=2.32.3",
+    "singer-python>=1.8.1",
+    "meltanolabs-target-snowflake>=0.14.1",
+    "dbt-core>=1.9.1",
+    "dbt-snowflake>=1.9.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.8.6",
+]
