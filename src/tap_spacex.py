@@ -1,15 +1,19 @@
-import singer # type: ignore
+import singer  # type: ignore
 import pandas as pd
 import numpy as np
 
 LOGGER = singer.get_logger()
 
 
-def fetch_launches():
-    url = "https://api.spacexdata.com/v4/launches"
+def get_api_url(endpoint: str) -> str:
+    return f"https://api.spacexdata.com/v4/{endpoint}"
+
+
+def fetch_launches() -> None:
+    url: str = get_api_url("launches")
     df = pd.read_json(url)
 
-    records= df.to_dict(orient="records")
+    records = df.to_dict(orient="records")
     schema = {
         "properties": {
             "id": {"type": "string"},
@@ -23,8 +27,9 @@ def fetch_launches():
     singer.write_schema("launches", schema, "id")
     singer.write_records("launches", records)
 
-def fetch_rockets():
-    url = "https://api.spacexdata.com/v4/rockets"
+
+def fetch_rockets() -> None:
+    url: str = get_api_url("rockets")
     df = pd.read_json(url)
 
     schema = {
@@ -42,9 +47,11 @@ def fetch_rockets():
     singer.write_schema("rockets", schema, "id")
     singer.write_records("rockets", records)
 
-def main():
+
+def main() -> None:
     fetch_launches()
     fetch_rockets()
+
 
 if __name__ == "__main__":
     main()

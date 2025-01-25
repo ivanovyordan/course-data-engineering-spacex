@@ -1,15 +1,11 @@
-# Integer
-launch_count = 10
+launch_count: int = 10
 
-# Float
-success_rate = 0.95
+success_rate: float = 0.95
 
-# String
-rocket_name = "Falcon 9"
+rocket_name: str = "Falcon 9"
 
-# Boolean
-is_active = True
+is_active: bool = True
 
-total_launches = launch_count + 5
+total_launches: int = launch_count + 5
 
 print(total_launches)
