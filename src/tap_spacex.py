@@ -2,6 +2,8 @@ import singer  # type: ignore
 import pandas as pd
 import numpy as np
 
+from typing import List, Dict, Hashable, Any
+
 LOGGER = singer.get_logger()
 
 
@@ -11,10 +13,10 @@ def get_api_url(endpoint: str) -> str:
 
 def fetch_launches() -> None:
     url: str = get_api_url("launches")
-    df = pd.read_json(url)
+    df: pd.DataFrame = pd.read_json(url)
 
-    records = df.to_dict(orient="records")
-    schema = {
+    records: List[Dict[Hashable, Any]] = df.to_dict(orient="records")
+    schema: Dict[str, Dict[str, Any]] = {
         "properties": {
             "id": {"type": "string"},
             "name": {"type": "string"},
@@ -30,9 +32,9 @@ def fetch_launches() -> None:
 
 def fetch_rockets() -> None:
     url: str = get_api_url("rockets")
-    df = pd.read_json(url)
+    df: pd.DataFrame = pd.read_json(url)
 
-    schema = {
+    schema: Dict[str, Dict] = {
         "properties": {
             "id": {"type": "string"},
             "name": {"type": "string"},
@@ -42,7 +44,7 @@ def fetch_rockets() -> None:
 
     # Replace NaN values with None
     df = df.replace({np.nan: None})
-    records = df.to_dict(orient="records")
+    records: List[Dict[Hashable, Any]] = df.to_dict(orient="records")
 
     singer.write_schema("rockets", schema, "id")
     singer.write_records("rockets", records)
