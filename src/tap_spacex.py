@@ -2,9 +2,31 @@ import singer  # type: ignore
 import pandas as pd
 import numpy as np
 
-from typing import List, Dict, Hashable, Any
+from typing import List, Dict, Hashable, Any, TypedDict
 
 LOGGER = singer.get_logger()
+
+
+class LaunchProperties(TypedDict):
+    id: str
+    name: str
+    rocket: str
+    success: int
+    date_utc: str
+
+
+class Launch(TypedDict):
+    properties: LaunchProperties
+
+
+class RocketProperties(TypedDict):
+    id: str
+    name: str
+    active: bool
+
+
+class Rocket(TypedDict):
+    properties: RocketProperties
 
 
 def get_api_url(endpoint: str) -> str:
@@ -15,7 +37,7 @@ def fetch_launches() -> None:
     url: str = get_api_url("launches")
     df: pd.DataFrame = pd.read_json(url)
 
-    records: List[Dict[Hashable, Any]] = df.to_dict(orient="records")
+    records: List[Dict[Hashable, Launch]] = df.to_dict(orient="records")
     schema: Dict[str, Dict[str, Any]] = {
         "properties": {
             "id": {"type": "string"},
@@ -44,7 +66,7 @@ def fetch_rockets() -> None:
 
     # Replace NaN values with None
     df = df.replace({np.nan: None})
-    records: List[Dict[Hashable, Any]] = df.to_dict(orient="records")
+    records: List[Dict[Hashable, Rocket]] = df.to_dict(orient="records")
 
     singer.write_schema("rockets", schema, "id")
     singer.write_records("rockets", records)
