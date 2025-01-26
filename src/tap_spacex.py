@@ -2,7 +2,7 @@ import singer  # type: ignore
 import pandas as pd
 import numpy as np
 
-from typing import List, Dict, Hashable, Any, TypedDict
+from typing import List, Dict, Hashable, Any, TypedDict, Optional
 
 LOGGER = singer.get_logger()
 
@@ -23,6 +23,7 @@ class RocketProperties(TypedDict):
     id: str
     name: str
     active: bool
+    payloads: Optional[List[Dict]]
 
 
 class Rocket(TypedDict):
@@ -33,11 +34,19 @@ def get_api_url(endpoint: str) -> str:
     return f"https://api.spacexdata.com/v4/{endpoint}"
 
 
-def fetch_launches() -> None:
-    url: str = get_api_url("launches")
+def fetch_records(endpoint: str) -> List[Dict[Hashable, Launch | Rocket]]:
+    url: str = get_api_url(endpoint)
     df: pd.DataFrame = pd.read_json(url)
 
-    records: List[Dict[Hashable, Launch]] = df.to_dict(orient="records")
+    df = df.replace({np.nan: None})
+    records: List[Dict[Hashable, Launch | Rocket]] = df.to_dict(orient="records")
+
+    return records
+
+
+def fetch_launches() -> None:
+    records = fetch_records("launches")
+
     schema: Dict[str, Dict[str, Any]] = {
         "properties": {
             "id": {"type": "string"},
@@ -53,8 +62,7 @@ def fetch_launches() -> None:
 
 
 def fetch_rockets() -> None:
-    url: str = get_api_url("rockets")
-    df: pd.DataFrame = pd.read_json(url)
+    records = fetch_records("rockets")
 
     schema: Dict[str, Dict] = {
         "properties": {
@@ -63,10 +71,6 @@ def fetch_rockets() -> None:
             "active": {"type": "boolean"},
         }
     }
-
-    # Replace NaN values with None
-    df = df.replace({np.nan: None})
-    records: List[Dict[Hashable, Rocket]] = df.to_dict(orient="records")
 
     singer.write_schema("rockets", schema, "id")
     singer.write_records("rockets", records)
