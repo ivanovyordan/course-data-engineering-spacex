@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 import singer  # type: ignore
 import pandas as pd
 import numpy as np
@@ -7,7 +9,8 @@ from typing import List, Dict, Hashable, Any, TypedDict, Optional
 LOGGER = singer.get_logger()
 
 
-class LaunchProperties(TypedDict):
+@dataclass
+class LaunchProperties:
     id: str
     name: str
     rocket: str
@@ -19,7 +22,8 @@ class Launch(TypedDict):
     properties: LaunchProperties
 
 
-class RocketProperties(TypedDict):
+@dataclass
+class RocketProperties:
     id: str
     name: str
     active: bool
