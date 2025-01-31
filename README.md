@@ -17,6 +17,7 @@ To install uv, run:
 ```sh
 brew install uv
 uv sync
+uv run -- pre-commit install
 ```
 
 ## Running Scripts
