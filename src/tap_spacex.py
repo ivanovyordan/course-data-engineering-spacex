@@ -9,7 +9,10 @@ def fetch_launches():
     url = "https://api.spacexdata.com/v4/launches"
     df = pd.read_json(url)
 
+    # Replace NaN values with None
+    df = df.replace({np.nan: None})
     records= df.to_dict(orient="records")
+    
     schema = {
         "properties": {
             "id": {"type": "string"},

@@ -34,7 +34,7 @@ Then run:
 
 
 ```sh
-uv run -- python src/tap_spacex.py | uv run -- target-snowflake
+uv run -- python src/tap_spacex.py | uv run -- target-snowflake --config src/config.json
 ```
 
 ## Running dbt
